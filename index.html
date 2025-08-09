@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legendary Anime Quotes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: #000;
+            height: 100vh;
+            transition: all 1s ease;
+        }
+        .quote-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 1s ease-in-out;
+        }
+        .quote-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+        .quote-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 80%;
+            padding: 40px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quote-text {
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: 300;
+            line-height: 1.3;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.1); }
+            to { text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.3); }
+        }
+        .character-info {
+            color: #ffd700;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+        }
+        .anime-name {
+            color: #fff;
+            font-size: 1em;
+            opacity: 0.8;
+            font-weight: normal;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 3;
+        }
+        .nav-btn {
+            padding: 15px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .nav-btn:active { transform: translateY(-1px); }
+        .quote-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 3;
+            font-weight: bold;
+        }
+        .title {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            z-index: 3;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (max-width: 768px) {
+            .quote-text { font-size: 1.8em; }
+            .character-info { font-size: 1.2em; }
+            .quote-content { max-width: 95%; padding: 20px; }
+            .nav-btn { padding: 12px 20px; font-size: 1em; }
+            .title { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Legendary Quotes</div>
+    <div class="quote-counter" id="quoteCounter">1 / 8</div>
+    <div class="quote-container" id="quoteContainer">
+        <div class="quote-content" id="quoteContent">
+            <div class="quote-text" id="quoteText"></div>
+            <div class="character-info" id="characterName"></div>
+            <div class="anime-name" id="animeName"></div>
+        </div>
+    </div>
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousQuote()">← Previous</button>
+        <button class="nav-btn" onclick="nextQuote()">Next →</button>
+        <button class="nav-btn" onclick="randomQuote()">🎲 Random</button>
+        <button class="nav-btn" onclick="readQuote()">🔊 Read</button>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                text: "The only way to truly escape the ordinary is never to give up on your dreams, no matter how impossible they seem.",
+                character: "Monkey D. Luffy",
+                anime: "One Piece",
+                gender: "male",
+                background: "https://images8.alphacoders.com/122/thumb-1920-1228043.jpg"
+            },
+            {
+                text: "True strength isn't about having power over others, but having power over yourself.",
+                character: "Naruto Uzumaki",
+                anime: "Naruto",
+                gender: "male",
+                background: "https://images6.alphacoders.com/679/thumb-1920-679641.png"
+            },
+            {
+                text: "We are all like fireworks - we climb, shine, and always go our separate ways and become further apart.",
+                character: "Okabe Rintarou",
+                anime: "Steins;Gate",
+                gender: "male",
+                background: "https://images6.alphacoders.com/432/thumb-1920-432751.png"
+            },
+            {
+                text: "The moment you give up is the moment you let someone else win.",
+                character: "Hanamichi Sakuragi",
+                anime: "Slam Dunk",
+                gender: "male",
+                background: "https://images4.alphacoders.com/134/thumb-1920-1345070.png"
+            },
+            {
+                text: "People's lives don't end when they die. It ends when they lose faith.",
+                character: "Itachi Uchiha",
+                anime: "Naruto",
+                gender: "male",
+                background: "https://images6.alphacoders.com/622/thumb-1920-622653.jpg"
+            },
+            {
+                text: "The world isn't perfect, but it's there for us doing the best it can. That's what makes it so beautiful.",
+                character: "Roy Mustang",
+                anime: "Fullmetal Alchemist",
+                gender: "male",
+                background: "https://images3.alphacoders.com/169/thumb-1920-169213.jpg"
+            },
+            {
+                text: "If you don't take risks, you can't create a future.",
+                character: "Monkey D. Luffy",
+                anime: "One Piece",
+                gender: "male",
+                background: "https://images2.alphacoders.com/122/thumb-1920-1228041.jpg"
+            },
+            {
+                text: "Being alone is not the same as being lonely. Sometimes you need solitude to find yourself.",
+                character: "L Lawliet",
+                anime: "Death Note",
+                gender: "male",
+                background: "https://images3.alphacoders.com/605/thumb-1920-605645.jpg"
+            }
+        ];
+
+        let currentQuoteIndex = 0;
+
+        function updateQuote(index) {
+            const container = document.getElementById('quoteContainer');
+            const quoteText = document.getElementById('quoteText');
+            const characterName = document.getElementById('characterName');
+            const animeName = document.getElementById('animeName');
+            const counter = document.getElementById('quoteCounter');
+            
+            const quote = quotes[index];
+            container.style.backgroundImage = `url('${quote.background}')`;
+            quoteText.textContent = `"${quote.text}"`;
+            characterName.textContent = `— ${quote.character}`;
+            animeName.textContent = quote.anime;
+            counter.textContent = `${index + 1} / ${quotes.length}`;
+        }
+
+        function nextQuote() {
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            updateQuote(currentQuoteIndex);
+        }
+
+        function previousQuote() {
+            currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+            updateQuote(currentQuoteIndex);
+        }
+
+        function randomQuote() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * quotes.length);
+            } while (newIndex === currentQuoteIndex && quotes.length > 1);
+            currentQuoteIndex = newIndex;
+            updateQuote(currentQuoteIndex);
+        }
+
+        function readQuote() {
+            const synth = window.speechSynthesis;
+            synth.cancel();
+            const quote = quotes[currentQuoteIndex];
+            const utterance = new SpeechSynthesisUtterance(`${quote.text} — ${quote.character} from ${quote.anime}`);
+            const voices = synth.getVoices();
+            const genderPref = quote.gender === "female" ? "female" : "male";
+            utterance.voice = voices.find(v => v.lang.startsWith("en") && v.name.toLowerCase().includes(genderPref)) || voices.find(v => v.lang.startsWith("en"));
+            synth.speak(utterance);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextQuote();
+            if (e.key === 'ArrowLeft') previousQuote();
+            if (e.key.toLowerCase() === 'r') randomQuote();
+            if (e.key.toLowerCase() === 'p') readQuote();
+        });
+
+        updateQuote(0);
+    </script>
+</body>
+</html>
