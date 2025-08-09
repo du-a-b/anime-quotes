@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legendary Anime Quotes</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Arial', sans-serif;
             overflow: hidden;
@@ -28,7 +32,10 @@
         .quote-container::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3), rgba(0,0,0,0.7));
             z-index: 1;
         }
@@ -102,7 +109,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-        .nav-btn:active { transform: translateY(-1px); }
         .quote-counter {
             position: fixed;
             top: 30px;
@@ -128,22 +134,23 @@
             background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         @media (max-width: 768px) {
             .quote-text { font-size: 1.8em; }
             .character-info { font-size: 1.2em; }
             .quote-content { max-width: 95%; padding: 20px; }
+            .navigation { bottom: 20px; gap: 10px; }
             .nav-btn { padding: 12px 20px; font-size: 1em; }
-            .title { font-size: 1.3em; }
+            .title { font-size: 1.3em; top: 20px; left: 20px; }
+            .quote-counter { top: 20px; right: 20px; padding: 8px 15px; }
         }
     </style>
 </head>
 <body>
     <div class="title">Legendary Quotes</div>
-    <div class="quote-counter" id="quoteCounter">1 / 8</div>
+    <div class="quote-counter" id="quoteCounter">1 / 10</div>
     <div class="quote-container" id="quoteContainer">
-        <div class="quote-content" id="quoteContent">
+        <div class="quote-content loading" id="quoteContent">
             <div class="quote-text" id="quoteText"></div>
             <div class="character-info" id="characterName"></div>
             <div class="anime-name" id="animeName"></div>
@@ -158,119 +165,84 @@
 
     <script>
         const quotes = [
-            {
-                text: "The only way to truly escape the ordinary is never to give up on your dreams, no matter how impossible they seem.",
-                character: "Monkey D. Luffy",
-                anime: "One Piece",
-                gender: "male",
-                background: "https://images8.alphacoders.com/122/thumb-1920-1228043.jpg"
-            },
-            {
-                text: "True strength isn't about having power over others, but having power over yourself.",
-                character: "Naruto Uzumaki",
-                anime: "Naruto",
-                gender: "male",
-                background: "https://images6.alphacoders.com/679/thumb-1920-679641.png"
-            },
-            {
-                text: "We are all like fireworks - we climb, shine, and always go our separate ways and become further apart.",
-                character: "Okabe Rintarou",
-                anime: "Steins;Gate",
-                gender: "male",
-                background: "https://images6.alphacoders.com/432/thumb-1920-432751.png"
-            },
-            {
-                text: "The moment you give up is the moment you let someone else win.",
-                character: "Hanamichi Sakuragi",
-                anime: "Slam Dunk",
-                gender: "male",
-                background: "https://images4.alphacoders.com/134/thumb-1920-1345070.png"
-            },
-            {
-                text: "People's lives don't end when they die. It ends when they lose faith.",
-                character: "Itachi Uchiha",
-                anime: "Naruto",
-                gender: "male",
-                background: "https://images6.alphacoders.com/622/thumb-1920-622653.jpg"
-            },
-            {
-                text: "The world isn't perfect, but it's there for us doing the best it can. That's what makes it so beautiful.",
-                character: "Roy Mustang",
-                anime: "Fullmetal Alchemist",
-                gender: "male",
-                background: "https://images3.alphacoders.com/169/thumb-1920-169213.jpg"
-            },
-            {
-                text: "If you don't take risks, you can't create a future.",
-                character: "Monkey D. Luffy",
-                anime: "One Piece",
-                gender: "male",
-                background: "https://images2.alphacoders.com/122/thumb-1920-1228041.jpg"
-            },
-            {
-                text: "Being alone is not the same as being lonely. Sometimes you need solitude to find yourself.",
-                character: "L Lawliet",
-                anime: "Death Note",
-                gender: "male",
-                background: "https://images3.alphacoders.com/605/thumb-1920-605645.jpg"
-            }
+            { text: "The only way to truly escape the ordinary is never to give up on your dreams, no matter how impossible they seem.", character: "Monkey D. Luffy", anime: "One Piece", gender: "male", background: "https://4kwallpapers.com/images/wallpapers/gear-5-luffy-one-piece-1920x1080-12053.jpg" },
+            { text: "True strength isn't about having power over others, but having power over yourself.", character: "Naruto Uzumaki", anime: "Naruto", gender: "male", background: "https://images.alphacoders.com/131/1314622.jpg" },
+            { text: "A lesson in chasing your dreams is also a lesson in finding yourself.", character: "Hinata Hyuga", anime: "Naruto", gender: "female", background: "https://images5.alphacoders.com/131/1312976.jpg" },
+            { text: "We are all like fireworks - we climb, shine, and always go our separate ways and become further apart.", character: "Okabe Rintarou", anime: "Steins;Gate", gender: "male", background: "https://images7.alphacoders.com/787/thumb-1920-787016.jpg" },
+            { text: "I will never stop believing in my friends. That's my nindō!", character: "Sakura Haruno", anime: "Naruto", gender: "female", background: "https://images3.alphacoders.com/131/1315473.jpg" },
+            { text: "People's lives don't end when they die. It ends when they lose faith.", character: "Itachi Uchiha", anime: "Naruto", gender: "male", background: "https://images5.alphacoders.com/606/606284.jpg" },
+            { text: "The world isn't perfect, but it's there for us doing the best it can. That's what makes it so beautiful.", character: "Roy Mustang", anime: "Fullmetal Alchemist", gender: "male", background: "https://images6.alphacoders.com/122/1224243.jpg" },
+            { text: "Sometimes it's not about doing what's easy, it's about doing what's right.", character: "Mikasa Ackerman", anime: "Attack on Titan", gender: "female", background: "https://images8.alphacoders.com/131/1315843.jpg" },
+            { text: "If you don't take risks, you can't create a future.", character: "Monkey D. Luffy", anime: "One Piece", gender: "male", background: "https://4kwallpapers.com/images/wallpapers/gear-5-luffy-one-piece-1920x1080-12053.jpg" },
+            { text: "Being alone is not the same as being lonely. Sometimes you need solitude to find yourself.", character: "L Lawliet", anime: "Death Note", gender: "male", background: "https://images8.alphacoders.com/126/1268023.jpg" }
         ];
 
         let currentQuoteIndex = 0;
 
-        function updateQuote(index) {
+        function updateQuote(index, animate = true) {
             const container = document.getElementById('quoteContainer');
+            const content = document.getElementById('quoteContent');
             const quoteText = document.getElementById('quoteText');
             const characterName = document.getElementById('characterName');
             const animeName = document.getElementById('animeName');
             const counter = document.getElementById('quoteCounter');
-            
+
             const quote = quotes[index];
-            container.style.backgroundImage = `url('${quote.background}')`;
-            quoteText.textContent = `"${quote.text}"`;
-            characterName.textContent = `— ${quote.character}`;
-            animeName.textContent = quote.anime;
-            counter.textContent = `${index + 1} / ${quotes.length}`;
+
+            if (animate) content.classList.add('loading');
+
+            setTimeout(() => {
+                container.style.backgroundImage = `url('${quote.background}')`;
+                quoteText.textContent = `"${quote.text}"`;
+                characterName.textContent = `— ${quote.character}`;
+                animeName.textContent = quote.anime;
+                counter.textContent = `${index + 1} / ${quotes.length}`;
+                if (animate) {
+                    content.classList.remove('loading');
+                    content.classList.add('loaded');
+                }
+            }, animate ? 300 : 0);
         }
 
-        function nextQuote() {
-            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-            updateQuote(currentQuoteIndex);
-        }
-
-        function previousQuote() {
-            currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
-            updateQuote(currentQuoteIndex);
-        }
-
+        function nextQuote() { currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; updateQuote(currentQuoteIndex); }
+        function previousQuote() { currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length; updateQuote(currentQuoteIndex); }
         function randomQuote() {
             let newIndex;
-            do {
-                newIndex = Math.floor(Math.random() * quotes.length);
-            } while (newIndex === currentQuoteIndex && quotes.length > 1);
+            do { newIndex = Math.floor(Math.random() * quotes.length); }
+            while (newIndex === currentQuoteIndex && quotes.length > 1);
             currentQuoteIndex = newIndex;
             updateQuote(currentQuoteIndex);
         }
 
         function readQuote() {
-            const synth = window.speechSynthesis;
-            synth.cancel();
             const quote = quotes[currentQuoteIndex];
-            const utterance = new SpeechSynthesisUtterance(`${quote.text} — ${quote.character} from ${quote.anime}`);
-            const voices = synth.getVoices();
-            const genderPref = quote.gender === "female" ? "female" : "male";
-            utterance.voice = voices.find(v => v.lang.startsWith("en") && v.name.toLowerCase().includes(genderPref)) || voices.find(v => v.lang.startsWith("en"));
-            synth.speak(utterance);
+            const speech = new SpeechSynthesisUtterance(`${quote.text} — ${quote.character} from ${quote.anime}`);
+            const voices = speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => quote.gender === "female" ? v.name.includes("Female") || v.gender === "female" : v.name.includes("Male") || v.gender === "male");
+            if (preferredVoice) speech.voice = preferredVoice;
+            speech.lang = 'en-US';
+            speech.rate = 1;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
         }
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight' || e.key === ' ') nextQuote();
-            if (e.key === 'ArrowLeft') previousQuote();
-            if (e.key.toLowerCase() === 'r') randomQuote();
-            if (e.key.toLowerCase() === 'p') readQuote();
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowRight': case ' ': e.preventDefault(); nextQuote(); break;
+                case 'ArrowLeft': e.preventDefault(); previousQuote(); break;
+                case 'r': case 'R': randomQuote(); break;
+                case 'v': case 'V': readQuote(); break;
+            }
         });
 
-        updateQuote(0);
+        let autoAdvance = setInterval(nextQuote, 8000);
+        document.addEventListener('click', function() {
+            clearInterval(autoAdvance);
+            autoAdvance = setInterval(nextQuote, 8000);
+        });
+
+        updateQuote(0, false);
+        document.getElementById('quoteContent').classList.add('loaded');
     </script>
 </body>
 </html>
